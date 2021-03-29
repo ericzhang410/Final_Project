@@ -39,6 +39,7 @@ public class Player {
 		g.drawOval(x, y, 60, 60); 
 	}
 	public void tick(){
+
 		x+=velx;
 		y+=vely;
 	}
@@ -72,15 +73,11 @@ public class Player {
 	}
 	public void SetS(double x)
 	{
-		speed = x;
-	}
-	public void SetY(int y)
-	{
-		this.y = y;
-	}
-	public void SetX(int x)
-	{
-		this.x = x;
+		if(x<=11){
+			speed = x;
+		}
+
+
 	}
 	
 }

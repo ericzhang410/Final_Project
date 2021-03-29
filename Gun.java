@@ -2,10 +2,16 @@ import java.awt.*;
 public class Gun {
 	double firerate;
 	boolean automatic;
-	public Gun()
+	public Gun(double firerate)
 	{
-		firerate = 10;
+		this.firerate = firerate;
 		automatic = true;
+	}
+	public void SetF(double firerate){
+		this.firerate = firerate;
+	}
+	public double Firerate(){
+		return firerate;
 	}
 	public void myDraw(Graphics g) {}
 	public void tick() {}
