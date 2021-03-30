@@ -17,7 +17,6 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         returnMenu.addActionListener(this);
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 500));
         this.add(returnMenu);
-
          */
 
 
@@ -40,7 +39,6 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         if(e.getSource() == returnMenu){
             Frame.cardsL.show(Frame.c, "Menu");
         }
-
          */
 
     }

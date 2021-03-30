@@ -18,7 +18,6 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         this.setLayout(new FlowLayout());
         this.add(goGame);     // add the button
         this.setBackground(Color.GREEN);
-
          */
         buttonColor1 = buttonColor2 = buttonColor3 = Color.blue;
         mouseX = 0;

@@ -11,6 +11,7 @@ public class Frame extends JFrame{
     Rules rulesP;
     Options optionsP;
     Over overP;
+	//Constructor
     public Frame(String title) {
         //super constructor
         super(title);

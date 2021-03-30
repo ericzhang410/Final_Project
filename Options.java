@@ -15,7 +15,6 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
         returnMenu.addActionListener(this);
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 500));
         this.add(returnMenu);
-
          */
 
 
@@ -35,7 +34,6 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
         if(e.getSource() == returnMenu){
             Frame.cardsL.show(Frame.c, "Menu");
         }
-
          */
 
     }

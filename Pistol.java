@@ -1,4 +1,7 @@
 
-public class Pistol {
-
+public class Pistol extends Gun {
+	public Pistol()
+	{
+		super();
+	}
 }
