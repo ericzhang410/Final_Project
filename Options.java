@@ -15,6 +15,7 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
         returnMenu.addActionListener(this);
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 500));
         this.add(returnMenu);
+
          */
 
 
@@ -24,16 +25,16 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
         super.paintComponent(g);
         g.drawImage(image.getImage(2), 0, 0, null);
         g.drawImage(image.getImage(1), 20 , 560, null);
-
+        g.drawImage(image.getImage(9), 50, 150, null);
         g.setColor(Color.blue);
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("SHIEEEESH", 0,100 );
     }
     public void actionPerformed(ActionEvent e) {
         /*
         if(e.getSource() == returnMenu){
             Frame.cardsL.show(Frame.c, "Menu");
         }
+
          */
 
     }
@@ -49,7 +50,7 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
         mouseY = e.getY();
         System.out.println(mouseX + " " + mouseY);
         if(e.getButton() == MouseEvent.BUTTON1 && (mouseX>20 && mouseX <95) && (mouseY>560 && mouseY<625)){
-            Frame.cardsL.show(Frame.c, "Menu");
+            myFrame.cardsL.show(myFrame.c, "Menu");
         }
         repaint();
 

@@ -29,7 +29,6 @@ public class Over extends JPanel implements ActionListener, MouseListener, Mouse
         g.setColor(Color.blue);
 
         g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("Yooooo", 0,100 );
         repaint();
 
     }

@@ -49,10 +49,10 @@ public class SpittingZombie extends Zombie {
 		
 	}
 	public void spitColl(int x, int y) {
-		spithit = false;
+		playerhit = false;
 		for(int i= 0; i < spits.size(); i++){
 			if (spits.get(i).x <= x+50  && spits.get(i).x >= x && spits.get(i).y <= y+50 && spits.get(i).y >= y) {
-				spithit = true;
+				playerhit = true;
 				spits.remove(i);
 			}
 			else if(System.currentTimeMillis() - spits.get(i).duration() > 10000)

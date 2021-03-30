@@ -18,6 +18,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         this.setLayout(new FlowLayout());
         this.add(goGame);     // add the button
         this.setBackground(Color.GREEN);
+
          */
         buttonColor1 = buttonColor2 = buttonColor3 = Color.blue;
         mouseX = 0;
@@ -47,10 +48,10 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
 
         g.setFont(new Font("SansSerif", Font.BOLD, 30));
         int playWidth = g.getFontMetrics().stringWidth("PLAY");
-        int opWidth = g.getFontMetrics().stringWidth("OPTIONS");
+        int opWidth = g.getFontMetrics().stringWidth("ABOUT");
         int rulesWidth = g.getFontMetrics().stringWidth("RULES");
         g.drawString("PLAY", (700-playWidth)/2, 240);
-        g.drawString("OPTIONS", (700-opWidth)/2, 380);
+        g.drawString("ABOUT", (700-opWidth)/2, 380);
         g.drawString("RULES", (700-rulesWidth)/2, 540);
 
 
@@ -68,14 +69,14 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         mouseY = e.getY();
 
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>180 && mouseY <280))){
-            Frame.cardsL.show(Frame.c, "Panel");
+            myFrame.cardsL.show(myFrame.c, "Panel");
 
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>480 && mouseY <580))){
-            Frame.cardsL.show(Frame.c, "Rules");
+            myFrame.cardsL.show(myFrame.c, "Rules");
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>320 && mouseY <420))){
-            Frame.cardsL.show(Frame.c, "Options");
+            myFrame.cardsL.show(myFrame.c, "Options");
         }
         repaint();
 

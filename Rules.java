@@ -17,6 +17,7 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         returnMenu.addActionListener(this);
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 500));
         this.add(returnMenu);
+
          */
 
 
@@ -27,10 +28,9 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         super.paintComponent(g);
         g.drawImage(image.getImage(3), 0,0, null);
         g.drawImage(image.getImage(1), 20 , 560, null);
-
-        g.setColor(Color.blue);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("Yooooo", 0,100 );
+        g.drawImage(image.getImage(8), 50,100, null);
+        g.setColor(Color.red);
+        g.setFont(new Font("Arial", Font.BOLD, 25));
     }
 
 
@@ -39,6 +39,7 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         if(e.getSource() == returnMenu){
             Frame.cardsL.show(Frame.c, "Menu");
         }
+
          */
 
     }
@@ -55,7 +56,7 @@ public class Rules extends JPanel implements ActionListener, MouseListener, Mous
         mouseY = e.getY();
         System.out.println(mouseX + " " + mouseY);
         if(e.getButton() == MouseEvent.BUTTON1 && (mouseX>20 && mouseX <95) && (mouseY>560 && mouseY<625)){
-            Frame.cardsL.show(Frame.c, "Menu");
+            myFrame.cardsL.show(myFrame.c, "Menu");
         }
         repaint();
 

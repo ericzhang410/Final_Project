@@ -1,42 +1,38 @@
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+
 
 public class Zombie {
 	//Variables
 	int x,y, health , increments,spawn;
 	double velx,vely;
-	boolean playerhit,spithit;
-	private BufferedImage sprite;
-    ImportImg image = new ImportImg();
-	
+	boolean playerhit;
 	//Constructor
 	public Zombie()
 	{
 		spawn = (int)(Math.random()*4)+1;
 		if(spawn == 1) {
-			x = (int)(Math.random()*700)+1;
-			y = (int)(Math.random()*50)+630;
+			x = (int)(Math.random()*600)+1;
+			y = (int)(Math.random()*5)+591;
 		}
 		else if (spawn == 2) {
-			x = (int)(Math.random()*50)+630;
-			y = (int)(Math.random()*700)+1;
+			x = (int)(Math.random()*5)+591;
+			y = (int)(Math.random()*600)+1;
 		}
 		else if  (spawn == 3) {
-			x = (int)(Math.random()*700)+1;
-			y = (int)(Math.random()*50)-25;
+			x = (int)(Math.random()*600)+1;
+			y = (int)(Math.random()*5)+1;
 		}
 		else {
-			x = (int)(Math.random()*50)-25;
-			y = (int)(Math.random()*700)+1;
+			x = (int)(Math.random()*5)+1;
+			y = (int)(Math.random()*600)+1;
 		}
 		velx = 1;
 		vely = 1;
 
 		health = 2 ;
-		spithit = false;
+		
 		playerhit = false;
-		sprite = image.getImage(16);
 	}
 	public void tick(int mouseX, int mouseY){
 		double newX = mouseX-x;
@@ -51,43 +47,10 @@ public class Zombie {
 		y+=vely;
 	}
 	public void myDraw(Graphics g) {
-		if(vely > 0) {
-			sprite = image.getImage(20);
-	       if(velx > 0) {
-	    	   sprite = image.getImage(19);
-	       }
-	       if(vely < 0) {
-	    	   sprite = image.getImage(21);
-	       }
-	}
-	if(vely < 0) {
-		sprite = image.getImage(16);
-		if(velx > 0) {
-			sprite = image.getImage(17);
-		}
-		if(velx < 0) {
-			sprite = image.getImage(23);
-		}
-	}
-	if(velx > 0) {
-		sprite = image.getImage(18);
-		if(vely > 0) {
-			sprite = image.getImage(19);
-		}
-		if(vely < 0) {
-			sprite = image.getImage(17);
-		}
-	}
-	if(velx < 0) {
-		sprite = image.getImage(22);
-		if(vely > 0) {
-			sprite = image.getImage(21);
-		}
-		if(vely < 0) {
-			sprite = image.getImage(23);
-		}
-	}
-	g.drawImage(sprite,x,y, null);
+		g.setColor(Color.green); 
+		g.fillOval(x, y, 60, 60); 
+		g.setColor(Color.black); 
+		g.drawOval(x, y, 60, 60); 
 	}
 	public void hit(Graphics g)
 	{
@@ -146,9 +109,6 @@ public class Zombie {
 	public boolean PHit() {
 		return playerhit;
 	}
-	public boolean SpitHit() {
-		return spithit;
-	}
 	public int X()
 	{
 		return x;
@@ -157,16 +117,6 @@ public class Zombie {
 	{
 		return y;
 	}
-	public void SetX(int x)
-	{
-		this.x = x;
-	}
-	public void SetY(int y)
-	{
-		this.y = y;
-	}
-	public void IncHealth() {
-		health ++;
-	}
 }
+
 

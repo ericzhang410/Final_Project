@@ -1,17 +1,19 @@
 import java.awt.*;
 public class Gun {
-	boolean shotgun;
 	double firerate;
 	boolean automatic;
-	public Gun()
+	public Gun(double firerate)
 	{
-		firerate = 1;
-		automatic = false;
-		shotgun = false;
+		this.firerate = firerate;
+		automatic = true;
+	}
+	public void SetF(double firerate){
+		this.firerate = firerate;
+	}
+	public double Firerate(){
+		return firerate;
 	}
 	public void myDraw(Graphics g) {}
 	public void tick() {}
-	public boolean isShotgun() {
-		return shotgun;
-	}
+	
 }

@@ -1,15 +1,4 @@
 /*
- * for(int n = 0; n < blocks.size();n++) {
-			for(int i = 0; i < bullets.size();i++) {
-				if (bullets.get(i).x <=blocks.get(n).X()+50  && bullets.get(i).x >= blocks.get(n).X() && bullets.get(i).y <= blocks.get(n).Y()+50 && bullets.get(i).y >= blocks.get(n).Y()) {
-					bullets.remove(i);
-				}
-			}
-			for(int i = 0; i < zombies.size(); i++){
-				blocks.get(n).ZColl(zombies.get(i));
-			}
-			blocks.get(n).PColl(p);
-		}
  * 		for(int i=0; i<grenades.size(); i++){
 			grenades.get(i).myDraw(g);
 		}
@@ -28,27 +17,29 @@
  */
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 	//Variables
-	int Mx, My,zh, ammo,capacity,kills,stage,Znum,Tnum,Snum,speed,Pgun;
-	Long start,end,current,firing,takedmg;
-	ImportImg image = new ImportImg();
+	int Mx, My,zh, ammo,capacity,kills,stage,Znum,Tnum,Snum,speed;
+	boolean lvlUp;
+	Long start,end,current,firerate,takedmg;
 	Timer timer;
+	ImportImg image = new ImportImg();
+	int Mposx;
+	int Mposy;
 	Player p;
 	Gun g;
 	Zombie d;
-	boolean hit,grenaded,damaged,reloaded,held,lvlup;
+	Camera cam;
+	boolean hit,grenaded,damaged,reloaded,held;
 	ArrayList<Projectile> bullets;
 	ArrayList<Zombie> zombies;
 	ArrayList<Projectile> grenades; 
-	ArrayList<Block> blocks;
-	ArrayList<Gun> guns;
-	Font font = new Font("SanSerif", Font.BOLD,24);
+	static Font font = new Font("SanSerif", Font.BOLD,24);
 	//Constructor
 	public Panel() 
 	{
@@ -59,28 +50,25 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 		addMouseMotionListener(this);
 		this.setFocusable(true);
 		
-		Mx = 0; My = 0; zh = -1; ammo = 10; capacity = ammo; kills = 0; Znum = 0; stage = 1;reloaded = false;held = false;
-		
-		start = System.currentTimeMillis();
+		Mx = 0; My = 0; zh = -1; ammo = 100; capacity = ammo; kills = 0; Znum = 0; stage = 1;reloaded = false;held = false;
+
 		current = (long) 0;
 		takedmg = (long) 0;
-		firing = (long) 0;
-		Pgun = 0;
+		firerate = (long) 0;
 		p = new Player();
-		blocks = new ArrayList<Block>(Arrays.asList(new Block(100,60,120,300), new Block(100,60,300,300),new Block(100,60,500,300)));
+		g = new Gun(10);
+		cam = new Camera(0,0);
 		zombies = new  ArrayList<Zombie>();
 		bullets = new  ArrayList<Projectile>();
 		grenades = new ArrayList<Projectile>();
-		guns = new ArrayList<Gun>(Arrays.asList(new Pistol(), new Sniper(), new Shotgun(), new Rifle(), new Laser()));
-		g =  guns.get(Pgun);
-		timer = new Timer(10 , this);
+		timer = new Timer(10, this);
 		timer.start();
+		start = System.currentTimeMillis();
+
 	}
 	public void paintComponent(Graphics g) 
 	{
-		for(int n = 0; n < blocks.size();n++) {
-			blocks.get(n).myDraw(g);
-		}
+		
 		super.paintComponent(g);
 		this.setBackground(Color.white);
 		g.drawImage(image.getImage(4), 0 , 0, null);
@@ -98,7 +86,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 		for(int i=0; i<bullets.size(); i++){
 			bullets.get(i).myDraw(g);
 		}
-		if(lvlup == true){
+		if(lvlUp == true){
 			g.setColor(Color.orange);
 			g.fillRoundRect(25, 130, 125, 50, 30, 30);
 			g.fillRoundRect(200, 130, 125, 50, 30, 30);
@@ -119,7 +107,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 			g.drawString("BUFF CHOICE", (700-g.getFontMetrics().stringWidth("BUFF CHOICE"))/2, 100);
 		}
 		if(p.Health() <= 0) {
-			Frame.cardsL.show(Frame.c, "Over");
+			myFrame.cardsL.show(myFrame.c, "Over");
 		}
 		g.setFont(font);
 		g.setColor(Color.BLACK);
@@ -143,32 +131,30 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 	{
 		if(e.getSource()==timer) 
 		{	
-				p.tick();
+			
+			p.tick();
+			cam.tick(p);
 			while(Znum < (int)stage*1.2) {
 				zombies.add(new Zombie());
 				Znum ++;
 			}
-			while (Tnum+1 < Math.round(stage)*0.1) {
+			while (Tnum+1 < Math.round(stage)*0.5) {
 				zombies.add(new TankZombie());
 				Tnum ++;
 			}
-			while (Snum+1 < Math.round(stage)*0.05){
+			while (Snum+1 < Math.round(stage)*0.1){
 				zombies.add(new SpittingZombie());
 				Snum ++;
 			}
 			if(zombies.size() == 0) 
 			{
+				
 				Znum = 0;
 				Tnum = 0;
 				Snum = 0;
 				stage++;
-				if(stage%5 == 0) {
-					lvlup = true;
-					for(int i = 0; i < zombies.size(); i++) {
-						zombies.get(i). IncHealth();
-					}
-				}
-				
+				lvlUp = true;
+
 			}
 			for(int i = 0; i < zombies.size(); i++) {
 				zombies.get(i).tick(p.X(),p.Y());
@@ -198,18 +184,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 			reloaded = false;
 		}
 	}
-	public void collisions() {		
+	public void collisions() {
+		for(int i = 0; i < zombies.size(); i++){
+			zombies.get(i).PColl(p);
+		}
 		for(int n=0; n < zombies.size(); n++) {
-			zombies.get(n).PColl(p);
 			zombies.get(n).spitColl(p.X()-25,p.Y()-25);
 			if(zombies.get(n).PHit() && System.currentTimeMillis()-takedmg > 50) {
 				takedmg = System.currentTimeMillis();
 				p.SetH(p.Health()-1);
 			}
-			if(zombies.get(n).SpitHit()) {
-				p.SetH(p.Health()-10);
-			}
-
+		}
+		for(int n=0; n < zombies.size(); n++) {
 			for(int i= 0; i < bullets.size(); i++){
 				if (bullets.get(i).x <= zombies.get(n).x+50  && bullets.get(i).x >= zombies.get(n).x && bullets.get(i).y <= zombies.get(n).y+50 && bullets.get(i).y >= zombies.get(n).y) {
 					hit = true;
@@ -217,12 +203,16 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 					zh = n;
 				}
 			}
-			for(int i= 0; i < zombies.size(); i++){
-				zombies.get(n).ZColl(zombies.get(i));
-				zombies.get(i).ZColl(zombies.get(n));
-			}
 		}
-		
+		for(int n= 0; n < zombies.size(); n++) {
+				for(int i= 0; i < zombies.size(); i++){
+					zombies.get(n).ZColl(zombies.get(i));
+					zombies.get(i).ZColl(zombies.get(n));
+				}
+		}
+	}
+	public int Stage(){
+		return stage;
 	}
 	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) 
@@ -286,15 +276,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 	}
 	public void mouseDragged(MouseEvent e) {
 		if(g.automatic) {
-			if(System.currentTimeMillis()-firing > 1000/g.firerate) {
-				firing = System.currentTimeMillis();
+			if(System.currentTimeMillis()-firerate > 1000/g.firerate) {
+				firerate = System.currentTimeMillis();
 				if (capacity > 0) {
-
-						bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
-						capacity--;					
-
+					bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
+					capacity--;
 				}
-				
 			}
 		}
 	}
@@ -308,47 +295,38 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 	public void mouseClicked(MouseEvent e) 
 	{
 		if (e.getButton() == MouseEvent.BUTTON1) {
-			if(System.currentTimeMillis()-firing >= 1000/g.firerate) {
-				firing = System.currentTimeMillis();
+			if(System.currentTimeMillis()-firerate >= 1000/g.firerate) {
+				firerate = System.currentTimeMillis();
 				if (capacity > 0) {
-					if (capacity > 2 && g.isShotgun()) {
-						bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
-						bullets.add(new Bullet(e.getX()-40, e.getY(),p.X()+50,p.Y()));
-						bullets.add(new Bullet(e.getX()+40, e.getY(),p.X()-50,p.Y()));
-						capacity-=3;
-					}
-					else {
-						bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
-						capacity--;
-					}
+					bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
+					capacity--;
 				}
 			}
 		}
 	}
-	public void mousePressed(MouseEvent e) 
-	{
+	public void mousePressed(MouseEvent e) {
 		Mx = e.getX();
 		My = e.getY();
 		if((Mx > 25 && Mx < 150) && (My >130 && My <180)){
 			p.SetS(p.Speed()+2);
-			lvlup = false;
+			lvlUp = false;
 		}
 		if((Mx > 200 && Mx < 325) && (My >130 && My <180)){
 			ammo += 10;
-			lvlup = false;
+			lvlUp = false;
 		}
 		if((Mx > 375 && Mx < 500) && (My >130 && My <180)){
 			p.SetH(100);
-			lvlup = false;
+			lvlUp = false;
 		}
-		if((Mx > 550 && Mx < 675) && (My >130 && My <180)){
-			Pgun ++;
-			g =  guns.get(Pgun);
-			lvlup = false;
+		if((Mx > 25 && Mx < 150) && (My >130 && My <180)){
+
+			lvlUp = false;
 		}
 
 	}
-	public void mouseReleased(MouseEvent e) {}
+
+	public void mouseReleased(MouseEvent e) {held = false;}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 
