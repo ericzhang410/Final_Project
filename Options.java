@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 public class Options extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
     private JButton returnMenu;
+    final int BACK = 1, SETTINGS = 2, ABOUT = 9;
     int mouseX, mouseY;
     ImportImg image = new ImportImg();
     public Options(){
@@ -23,14 +24,15 @@ public class Options extends JPanel implements ActionListener, MouseListener, Mo
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(image.getImage(2), 0, 0, null);
-        g.drawImage(image.getImage(1), 20 , 560, null);
-        g.drawImage(image.getImage(9), 50, 150, null);
+        g.drawImage(image.getImage(SETTINGS), 0, 0, null);
+        g.drawImage(image.getImage(BACK), 20 , 560, null);
+        g.drawImage(image.getImage(ABOUT), 50, 150, null);
         g.setColor(Color.blue);
         g.setFont(new Font("Arial", Font.BOLD, 40));
     }
     public void actionPerformed(ActionEvent e) {
         /*
+
         if(e.getSource() == returnMenu){
             Frame.cardsL.show(Frame.c, "Menu");
         }

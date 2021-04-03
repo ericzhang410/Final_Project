@@ -7,6 +7,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
     static boolean  gstart;
     Color buttonColor1, buttonColor2, buttonColor3;
     ImportImg image = new ImportImg();
+    final int BG = 0;
     public Menu(){
         super();
         gstart = false;
@@ -31,7 +32,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
     }
 
     public void paintComponent(Graphics g){
-        g.drawImage(image.getImage(0), 0 , 0, null);
+        g.drawImage(image.getImage(BG), 0 , 0, null);
         g.setFont(new Font("SansSerif", Font.BOLD, 40));
         int titleWidth = g.getFontMetrics().stringWidth("ZOMBIE SHOOTER");
 

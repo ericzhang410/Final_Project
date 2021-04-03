@@ -24,6 +24,7 @@ import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
 	//Variables
+	final int PLAYBG = 4;
 	int Mx, My,zh, ammo,capacity,kills,stage,Znum,Tnum,Snum,speed;
 	boolean lvlUp;
 	Long start,end,current,firerate,takedmg;
@@ -62,7 +63,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 		bullets = new  ArrayList<Projectile>();
 		grenades = new ArrayList<Projectile>();
 		timer = new Timer(10, this);
-		timer.start();
 		start = System.currentTimeMillis();
 
 	}
@@ -71,7 +71,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 		
 		super.paintComponent(g);
 		this.setBackground(Color.white);
-		g.drawImage(image.getImage(4), 0 , 0, null);
+		g.drawImage(image.getImage(PLAYBG), 0 , 0, null);
 		p.myDraw(g);
 		for(int i =0; i < zombies.size(); i++) {
 			if(zh == i) {
@@ -107,6 +107,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 			g.drawString("BUFF CHOICE", (700-g.getFontMetrics().stringWidth("BUFF CHOICE"))/2, 100);
 		}
 		if(p.Health() <= 0) {
+
 			myFrame.cardsL.show(myFrame.c, "Over");
 		}
 		g.setFont(font);
@@ -327,7 +328,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener, MouseL
 	}
 
 	public void mouseReleased(MouseEvent e) {held = false;}
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		timer.start();
+	}
 	public void mouseExited(MouseEvent e) {}
 
 	
