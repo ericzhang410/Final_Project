@@ -5,6 +5,7 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
     //private JButton goGame;
     int mouseX, mouseY;
     static boolean  gstart;
+    MyPanel panelP;
     Color buttonColor1, buttonColor2, buttonColor3;
     ImportImg image = new ImportImg();
     final int BG = 0;
@@ -19,7 +20,6 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         this.setLayout(new FlowLayout());
         this.add(goGame);     // add the button
         this.setBackground(Color.GREEN);
-
          */
         buttonColor1 = buttonColor2 = buttonColor3 = Color.blue;
         mouseX = 0;
@@ -70,14 +70,13 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         mouseY = e.getY();
 
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>180 && mouseY <280))){
-            myFrame.cardsL.show(myFrame.c, "Panel");
-
+        	panelP = new MyPanel();
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>480 && mouseY <580))){
-            myFrame.cardsL.show(myFrame.c, "Rules");
+            MyFrame.cardsL.show(MyFrame.c, "Rules");
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>320 && mouseY <420))){
-            myFrame.cardsL.show(myFrame.c, "Options");
+            MyFrame.cardsL.show(MyFrame.c, "Options");
         }
         repaint();
 

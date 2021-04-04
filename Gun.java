@@ -1,19 +1,8 @@
 import java.awt.*;
-public class Gun {
-	double firerate;
-	boolean automatic;
-	public Gun(double firerate)
-	{
-		this.firerate = firerate;
-		automatic = true;
-	}
-	public void SetF(double firerate){
-		this.firerate = firerate;
-	}
-	public double Firerate(){
-		return firerate;
-	}
-	public void myDraw(Graphics g) {}
-	public void tick() {}
-	
+public abstract class Gun {
+	public abstract void myDraw(Graphics g);
+	public abstract void tick();
+	public abstract boolean isShotgun();
+	public abstract boolean isAuto();
+	public abstract double firerate();
 }
