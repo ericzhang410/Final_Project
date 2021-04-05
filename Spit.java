@@ -19,9 +19,9 @@ public class Spit extends Projectile {
 	}
 	public void myDraw(Graphics g) 
 	{
-		g.setColor(Color.blue); 
+		g.setColor(Color.green); 
 		g.fillRect(x, y, 10, 10); 
-		g.setColor(Color.blue); 
+		g.setColor(Color.green); 
 		g.drawRect(x, y, 10, 10); 
 	}
 
