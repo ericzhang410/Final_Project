@@ -1,3 +1,10 @@
+/*
+ * 2021-04-06
+ * ICS3U7
+ * Ms.Strelkovska
+ * Eric Zhang and Allan Haung
+ * This program creates main game panel
+ */
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,22 +14,22 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class MyPanel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
-	//Variables
-	final int PLAYBG = 4;
-	int Mx, My,zh, ammo,capacity,kills,stage,Znum,Tnum,Snum,speed,Pgun;
-	Long start,end,current,firing,takedmg;
-	ImportImg image = new ImportImg();
-	Timer timer;
-	Player p;
-	Gun g;
-	Zombie d;
-	boolean hit,grenaded,damaged,reloaded,held,lvlup,respawn;
-	ArrayList<Projectile> bullets;
-	ArrayList<Zombie> zombies;
-	ArrayList<Projectile> grenades; 
-	ArrayList<Gun> guns;
-	Font font = new Font("SanSerif", Font.BOLD,24);
-	//Constructor
+	//Initializes the variables
+	private int Mx, My,zh, ammo,capacity,kills,stage,Znum,Tnum,Snum,speed,Pgun,highscore;
+	private Long start,end,current,firing,takedmg;
+	private ImportImg image = new ImportImg();
+	private Timer timer;
+	private Player p;
+	private Gun g;
+	private Zombie d;
+	private boolean hit,grenaded,damaged,reloaded,held,lvlup,respawn;
+	private ArrayList<Projectile> bullets;
+	private ArrayList<Zombie> zombies;
+	private ArrayList<Projectile> grenades; 
+	private ArrayList<Gun> guns;
+	private ArrayList<Integer> scores;
+	private Font font = new Font("SanSerif", Font.BOLD,24);
+	//Creates the Constructor
 	public MyPanel() 
 	{
 		super();
@@ -32,7 +39,7 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		addMouseMotionListener(this);
 		this.setFocusable(true);
 		
-		Mx = 0; My = 0; zh = -1; ammo = 10; capacity = ammo; kills = 0; Znum = 0; stage = 1;reloaded = false;held = false;
+		Mx = 0; My = 0; zh = -1; ammo = 10; capacity = ammo; kills = 0; Znum = 0; stage = 1;highscore = 0;reloaded = false;held = false;
 		
 		start = System.currentTimeMillis();
 		current = (long) 0;
@@ -44,10 +51,12 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		zombies = new  ArrayList<Zombie>();
 		bullets = new  ArrayList<Projectile>();
 		grenades = new ArrayList<Projectile>();
+		scores = new ArrayList<Integer>();
 		guns = new ArrayList<Gun>(Arrays.asList(new Pistol(), new Sniper(), new Shotgun(), new Rifle(), new Laser()));
 		g =  guns.get(Pgun);
 		timer = new Timer(10 , this);
 	}
+	//draws the images
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g);
@@ -63,7 +72,6 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 				zombies.get(i).myDraw(g);
 			}
 		}
-		
 		for(int i=0; i<bullets.size(); i++){
 			bullets.get(i).myDraw(g);
 		}
@@ -89,10 +97,9 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		}
 		if(p.Health() <= 0) {
 			MyFrame.cardsL.show(MyFrame.c, "Over");
-			zombies = new  ArrayList<Zombie>();
+				scores.add(kills);
 				p.SetH(100);
-				Pgun = 0;
-				Mx = 0; My = 0; zh = -1; ammo = 10; capacity = ammo; kills = 0; Znum = 0; stage = 1;reloaded = false;held = false;
+				this.restart();
 		}
 		g.setFont(font);
 		g.setColor(Color.BLACK);
@@ -103,7 +110,11 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		g.setFont(font);
 		g.drawString("Ammo: " + capacity, 20,50);
 		g.drawString("Kills " + kills, 20,100);
-		g.drawString("Time Passed " + (System.currentTimeMillis()-start)/1000, 450,50);
+		for(int i = 0; i < scores.size();i++) {
+			if (scores.get(i) > highscore)
+				highscore = scores.get(i);
+		}
+		g.drawString("Record " + highscore, 20,150);
 		g.setColor(Color.BLACK);
 		g.drawRect(99,599,501,21);
 		g.setColor(Color.RED);
@@ -112,6 +123,7 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		g.fillRect(100,600,5*p.Health(),20);
 		requestFocusInWindow();
 	}
+	//updates the panel, spawns zombies, and removes objects
 	public void actionPerformed(ActionEvent e) 
 	{
 		if(e.getSource()==timer) 
@@ -121,11 +133,11 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 				zombies.add(new Zombie());
 				Znum ++;
 			}
-			while (Tnum+1 < Math.round(stage)*0.1) {
+			while (Tnum+1 < Math.round(stage)*0.2) {
 				zombies.add(new TankZombie());
 				Tnum ++;
 			}
-			while (Snum+1 < Math.round(stage)*0.05){
+			while (Snum+1 < Math.round(stage)*0.1){
 				zombies.add(new SpittingZombie());
 				Snum ++;
 			}
@@ -165,12 +177,14 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		}
 		
 	}
+	//all code involved with time
 	public void timing() {
 		if(System.currentTimeMillis()-current > 1000 && reloaded) {
 			capacity = ammo;
 			reloaded = false;
 		}
 	}
+	//all code involved with collisions
 	public void collisions() {		
 		for(int n=0; n < zombies.size(); n++) {
 			zombies.get(n).PColl(p);
@@ -198,6 +212,7 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 		
 	}
 	public void keyTyped(KeyEvent e) {}
+	//checks what key is pressed
 	public void keyPressed(KeyEvent e) 
 	{	
 		switch(e.getKeyCode())
@@ -231,6 +246,7 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 			
 		}
 	}
+	//checks what key is released
 	public void keyReleased(KeyEvent e) 
 	{	
 
@@ -254,21 +270,20 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 			break;
 		}
 	}
+	//fires the gun if the mouse is held and dragged
 	public void mouseDragged(MouseEvent e) {
 		if(g.isAuto()) {
 			if(System.currentTimeMillis()-firing > 1000/g.firerate()) {
 				firing = System.currentTimeMillis();
 				if (capacity > 0) {
-
 						bullets.add(new Bullet(e.getX(), e.getY(),p.X(),p.Y()));
 						capacity--;					
-
 				}
-				
 			}
 		}
 	}
 	public void mouseMoved(MouseEvent e) {}
+	//checks if the mouse is clicked
 	public void mouseClicked(MouseEvent e) 
 	{
 		if (e.getButton() == MouseEvent.BUTTON1) {
@@ -289,9 +304,8 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 			}
 		}
 	}
-	public int Stage(){
-		return stage;
-	}
+	public int Stage(){return stage;}
+	//checks if the player clicks an upgrade
 	public void mousePressed(MouseEvent e) 
 	{
 		Mx = e.getX();
@@ -315,12 +329,27 @@ public class MyPanel extends JPanel implements ActionListener, KeyListener, Mous
 				lvlup = false;
 			}
 		}
-
 	}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {timer.start();}
 	public void mouseExited(MouseEvent e) {}
-
-	
-	
+	//resets all stats except for the record
+	public void restart()
+	{		
+		Mx = 0; My = 0; zh = -1; ammo = 10; capacity = ammo; kills = 0; Znum = 0; stage = 1;reloaded = false;held = false;
+		
+		start = System.currentTimeMillis();
+		current = (long) 0;
+		takedmg = (long) 0;
+		firing = (long) 0;
+		Pgun = 0;
+		p = new Player();
+		respawn = true;
+		zombies = new  ArrayList<Zombie>();
+		bullets = new  ArrayList<Projectile>();
+		grenades = new ArrayList<Projectile>();
+		guns = new ArrayList<Gun>(Arrays.asList(new Pistol(), new Sniper(), new Shotgun(), new Rifle(), new Laser()));
+		g =  guns.get(Pgun);
+		timer = new Timer(10 , this);
+	}
 }

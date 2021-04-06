@@ -1,8 +1,17 @@
+/*
+ * 2021-04-06
+ * ICS3U7
+ * Ms.Strelkovska
+ * Eric Zhang and Allan Haung
+ * This program creates the projectile class
+ */
 import java.awt.*;
 
 public class Projectile {
+	//initialize the variables
 	int x,y, radius ,velx,vely;
 	long duration;
+	//constructor
 	public Projectile(int mouseX , int mouseY , int x , int y) {
 		this.x = x;
 		this.y = y;

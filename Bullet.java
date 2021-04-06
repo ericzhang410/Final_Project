@@ -1,3 +1,10 @@
+/*
+ * 2021-04-06
+ * ICS3U7
+ * Ms.Strelkovska
+ * Eric Zhang and Allan Haung
+ * This program creates the bullet
+ */
 import java.awt.*;
 
 public class Bullet extends Projectile{
@@ -6,12 +13,13 @@ public class Bullet extends Projectile{
 	{
 		super(mouseX, mouseY,x,y);
 	}
+	//draws the bullet
 	public void myDraw(Graphics g) 
 	{
 		g.setColor(Color.black); 
-		g.fillRect(x, y, 10, 10); 
+		g.fillOval(x, y, 5, 5); 
 		g.setColor(Color.black); 
-		g.drawRect(x, y, 10, 10); 
+		g.drawOval(x, y, 5, 5); 
 	}
 
 	

@@ -1,44 +1,33 @@
+/*
+ * 2021-04-06
+ * ICS3U7
+ * Ms.Strelkovska
+ * Eric Zhang and Allan Haung
+ * This program creates the menu card for our final project.
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Menu extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
-    //private JButton goGame;
-    int mouseX, mouseY;
-    static boolean  gstart;
-    Color buttonColor1, buttonColor2, buttonColor3;
-    ImportImg image = new ImportImg();
-    final int BG = 0;
+   //initialize the variables
+    private int mouseX, mouseY;
+    private Color buttonColor1, buttonColor2, buttonColor3;
+    private ImportImg image = new ImportImg();
+    //creates the constructor
     public Menu(){
         super();
-        gstart = false;
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        /*
-        goGame=new JButton("   Go to game panel   ");
-        goGame.addActionListener(this);
-        this.setLayout(new FlowLayout());
-        this.add(goGame);     // add the button
-        this.setBackground(Color.GREEN);
-
-         */
         buttonColor1 = buttonColor2 = buttonColor3 = Color.blue;
         mouseX = 0;
         mouseY = 0;
-
-
-
-
-
     }
-
+    //paints all the frame
     public void paintComponent(Graphics g){
-        g.drawImage(image.getImage(BG), 0 , 0, null);
+        g.drawImage(image.getImage(0), 0 , 0, null);
         g.setFont(new Font("SansSerif", Font.BOLD, 40));
-        int titleWidth = g.getFontMetrics().stringWidth("ZOMBIE SHOOTER");
-
-
-        g.setColor(Color.green);
-        g.drawString("ZOMBIE SHOOTER", (700-titleWidth)/2, 100);
+        g.setColor(Color.BLUE);
+        g.drawString("Final Hour", 250, 100);
         g.setColor(buttonColor1);
         g.fillRoundRect(150, 180, 400, 100,30, 30);
         g.setColor(buttonColor2);
@@ -54,65 +43,31 @@ public class Menu extends JPanel implements ActionListener, MouseListener, Mouse
         g.drawString("PLAY", (700-playWidth)/2, 240);
         g.drawString("ABOUT", (700-opWidth)/2, 380);
         g.drawString("RULES", (700-rulesWidth)/2, 540);
-
-
-
     }
-
-    public void mouseClicked(MouseEvent e) {
-
-
-    }
-
+    public void mouseClicked(MouseEvent e) {}
+    //checks for what button the user clicks
     public void mousePressed(MouseEvent e){
         System.out.println("f");
         mouseX = e.getX();
         mouseY = e.getY();
 
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>180 && mouseY <280))){
-            myFrame.cardsL.show(myFrame.c, "Panel");
-
+        	 MyFrame.cardsL.show(MyFrame.c, "Panel");
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>480 && mouseY <580))){
-            myFrame.cardsL.show(myFrame.c, "Rules");
+            MyFrame.cardsL.show(MyFrame.c, "Rules");
         }
         if(e.getButton() == MouseEvent.BUTTON1 && ((mouseX>150 && mouseX <550) && (mouseY>320 && mouseY <420))){
-            myFrame.cardsL.show(myFrame.c, "Options");
+            MyFrame.cardsL.show(MyFrame.c, "Options");
         }
         repaint();
-
     }
-
-
-    public void mouseReleased(MouseEvent e) {
-
-
-    }
-
-
-
-    public void mouseEntered(MouseEvent e) {
-
-
-    }
-
-
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-
-    public void mouseDragged(MouseEvent e) {
-
-
-    }
-
-
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void actionPerformed(ActionEvent e) {}
+    public void mouseDragged(MouseEvent e) {}
+    //creates interactive buttons that change if the mouse is over the button
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
