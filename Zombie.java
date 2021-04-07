@@ -2,7 +2,7 @@
  * 2021-04-06
  * ICS3U7
  * Ms.Strelkovska
- * Eric Zhang and Allan Haung
+ * Eric Zhang and Allan Huang
  * This program creates the zombies class
  */
 import java.awt.*;
